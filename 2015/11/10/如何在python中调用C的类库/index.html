@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ctypes,python," />
+  <meta name="keywords" content="python,ctypes," />
 
 
 
@@ -64,6 +64,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在python中调用C的类库">
 <meta name="twitter:description" content="我们在写python的时候，往往希望将一些性能要求较高的部分交给C/C++来完成。python提供了ctypes模块，可以很方便的将python与C/C++联系起来。">
+<meta name="twitter:image" content="http://xbbsky.coding.io/ctypes.png">
 
 
 
@@ -267,7 +268,7 @@
 </blockquote>
 <p>以上取自<a href="https://docs.python.org/2/library/ctypes.html" target="_blank" rel="external">Python 2.7.10 Documentation</a>翻译一下大约就是 <em><code>ctypes</code>是个Python的外部语言函数库。它提供了内建C数据类型，并且允许调用链接库中的函数。它让你能用Python包装这些共享库。</em>(渣翻见谅)</p>
 <p>总之，<code>ctypes</code>可以让我们在Python中使用C的类型，调用C的函数。这也是体现Python强大“胶水”特性的地方。</p>
-<h1 id="ctypes基本使用">ctypes基本使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#首先引入ctypes库</span></span><br><span class="line">&gt;&gt;&gt; import ctypes</span><br><span class="line"><span class="comment">#使用ctypes.cdll.LoadLibrary('LIB')函数可以加载外部库</span></span><br><span class="line">&gt;&gt;&gt; api = ctypes.cdll.LoadLibrary(<span class="string">'libc.so.6'</span>)</span><br><span class="line"><span class="comment">#调用库中的函数</span></span><br><span class="line">&gt;&gt;&gt; api.printf(<span class="string">'%s %d %d\n'</span>, <span class="string">'这是文字'</span>, <span class="number">1</span>+<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">这是文字 <span class="number">2</span> <span class="number">2</span></span><br><span class="line"><span class="number">17</span></span><br><span class="line"><span class="comment">#17是 printf 函数的返回值，为输出字符数</span></span><br><span class="line">&gt;&gt;&gt; api</span><br><span class="line">&lt;CDLL <span class="string">'libc.so.6'</span>, handle <span class="number">7</span>f741e52e9b0 at <span class="number">7</span>f741e3c76d0&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="ctypes基本使用">ctypes基本使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#首先引入ctypes库</span></span><br><span class="line">&gt;&gt;&gt; import ctypes</span><br><span class="line"><span class="comment">#使用ctypes.cdll.LoadLibrary('LIB')函数可以加载外部库</span></span><br><span class="line">&gt;&gt;&gt; api = ctypes.cdll.LoadLibrary(<span class="string">'libc.so.6'</span>)</span><br><span class="line"><span class="comment">#调用库中的函数</span></span><br><span class="line">&gt;&gt;&gt; api.printf(<span class="string">'%s %d %d\n'</span>, <span class="string">'这是文字'</span>, 1+1, 2)</span><br><span class="line">这是文字 2 2</span><br><span class="line">17</span><br><span class="line"><span class="comment">#17是 printf 函数的返回值，为输出字符数</span></span><br><span class="line">&gt;&gt;&gt; api</span><br><span class="line">&lt;CDLL <span class="string">'libc.so.6'</span>, handle 7f741e52e9b0 at 7f741e3c76d0&gt;</span><br></pre></td></tr></table></figure>
 <p>可以看到，只需加载库文件，之后就可以几乎完全按照C的语法调用函数，得到结果。其中，<code>ctypes</code>类型、<code>C</code>类型和<code>Python</code>类型的对应如下：</p>
 <p><img src="ctypes.png" alt=""></p>
 <h1 id="ctypes进阶使用">ctypes进阶使用</h1><p>如果用到了结构体，可以定义一个类继承<code>ctypes.Structure</code>代表结构体。同理，可以继承<code>ctypes.Union</code>代表共用体。比如：<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_StructTime</span><span class="params">(ctypes.Structure)</span>:</span></span><br><span class="line">    _fields_ =[(<span class="string">'day'</span>,c_ubyte),</span><br><span class="line">               (<span class="string">'month'</span>,c_ubyte),</span><br><span class="line">               (<span class="string">'year'</span>,c_ushort),</span><br><span class="line">               (<span class="string">'hour'</span>,c_ubyte),</span><br><span class="line">               (<span class="string">'minute'</span>,c_ubyte),</span><br><span class="line">               (<span class="string">'second'</span>,c_ubyte)];   </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;0&#125;-&#123;1&#125;-&#123;2&#125; &#123;3&#125;:&#123;4&#125;:&#123;5&#125;'</span>.format(self.year,self.month,self.day,self.hour,self.minute,self.second)</span><br></pre></td></tr></table></figure></p>
@@ -281,13 +282,27 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ctypes/" rel="tag">#ctypes</a>
-          
             <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/ctypes/" rel="tag">#ctypes</a>
           
         </div>
       
 
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/23/Golang-template使用/" rel="prev" title="Golang template使用">
+                Golang template使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
@@ -375,21 +390,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">分类</span>
               
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -441,8 +456,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2015</span>
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>

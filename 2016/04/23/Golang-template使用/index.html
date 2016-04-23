@@ -1,0 +1,745 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go,Golang," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="Golang 是谷歌公司开发的一种“系统级”编程语言。本篇文章只是记录一下它提供的官方 template 库的使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang template使用">
+<meta property="og:url" content="http://xbbsky.coding.io/2016/04/23/Golang-template使用/index.html">
+<meta property="og:site_name" content="xbbsky的小站">
+<meta property="og:description" content="Golang 是谷歌公司开发的一种“系统级”编程语言。本篇文章只是记录一下它提供的官方 template 库的使用方法。">
+<meta property="og:updated_time" content="2016-04-23T10:07:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang template使用">
+<meta name="twitter:description" content="Golang 是谷歌公司开发的一种“系统级”编程语言。本篇文章只是记录一下它提供的官方 template 库的使用方法。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Golang template使用 | xbbsky的小站 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">xbbsky的小站</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">live a simple life</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Golang template使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-23T00:06:54+08:00" content="2016-04-23">
+              2016-04-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/23/Golang-template使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/23/Golang-template使用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p><strong>Golang</strong> 是谷歌公司开发的一种“系统级”编程语言。本篇文章只是记录一下它提供的官方 <em>template</em> 库的使用方法。</p>
+<a id="more"></a>
+<h1 id="template_库介绍">template 库介绍</h1><p>golang官方提供了两个 <em>template</em> 库，一个是<code>text/template</code>，另一个是<code>html/template</code>。前者可以用来做任何文本的模板，包括用来做 <strong>代码生成器</strong> 之类的。后者则专用在做 <strong>html模板</strong>，提供了针对html,js和css的自动过滤输出机制，提高了安全性。其官方说明：</p>
+<blockquote>
+<p>Package template (html/template) implements data-driven templates for generating HTML output safe against code injection. It provides the same interface as package text/template and should be used instead of text/template whenever the output is HTML.</p>
+</blockquote>
+<p>因此本篇主要介绍<code>text/template</code>使用。</p>
+<h1 id="模板使用简介">模板使用简介</h1><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"text/template"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">var</span> err error</span><br><span class="line">t := template.Must(template.New(<span class="string">"T1"</span>).Parse(<span class="string">`This is T1：&#123;&#123;.&#125;&#125;`</span>))</span><br><span class="line">err = t.Execute(os.Stdout, <span class="string">"This is data"</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123; <span class="built_in">panic</span>(err) &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出：</span></span><br><span class="line"><span class="comment">//This is T1:This is data</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>New</code>定义一个模板，模板内容由<code>Parse</code>指定，<code>Must</code>确保模板成功定义，最后通过<code>Execute</code>渲染模板输出。如果要自己处理模板定义时的错误，也可以不用<code>Must</code>函数，使用<code>t,err := template.New(&quot;T&quot;).Parse(&quot;content&quot;)</code>。函数原型可以参考官方文档。</p>
+<p>模板内容中的<code>{{.}}</code>代表当前变量，在上例中为<code>&quot;This is data&quot;</code>。下面为一个较复杂的例子(官方Example)：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"text/template"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">type</span> Inventory <span class="keyword">struct</span> &#123;</span><br><span class="line">trueMaterial <span class="keyword">string</span></span><br><span class="line">trueCount    <span class="keyword">uint</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> main()&#123;</span><br><span class="line">    sweaters := Inventory&#123;<span class="string">"wool"</span>, <span class="number">17</span>&#125;</span><br><span class="line">    tmpl, err := template.New(<span class="string">"test"</span>).Parse(<span class="string">"&#123;&#123;.Count&#125;&#125; items are made of &#123;&#123;.Material&#125;&#125;"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123; <span class="built_in">panic</span>(err) &#125;</span><br><span class="line">    err = tmpl.Execute(os.Stdout, sweaters)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123; <span class="built_in">panic</span>(err) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果模板为文件，可使用<code>func ParseFiles(filenames ...string) (*Template, error)</code>和<code>func ParseGlob(pattern string) (*Template, error)</code>批量载入模板，然后使用<code>func (t *Template) ExecuteTemplate(wr io.Writer, name string, data interface{}) error</code>渲染指定的模板。</p>
+<h1 id="模板语法">模板语法</h1><p>模板中使用的特殊结构均用<code>{{  }}</code>包含，此分隔符可使用<code>func (t *Template) Delims(left, right string) *Template</code>方法进行重定义，换为自己想要的分隔符。简单起见，以下均使用<code>{{ }}</code>分隔符。</p>
+<h2 id="直接输出">直接输出</h2><p>直接使用<code>{{.}}</code>可直接输出字符串，若为结构体或<code>map</code>，可使用<code>{{.key}}</code>输出<code>key</code>对应的值。例如上例。</p>
+<h2 id="调用函数">调用函数</h2><p>使用<code>{{.xxx | Func}}</code>或<code>{{Func .a .b .c ...}}</code> 均可。自定义函数需要使用<code>func (t *Template) Funcs(funcMap FuncMap) *Template</code> 进行注册，其中<code>FuncMap</code>类型为<code>map[string]interface{}</code>，其中键为自定义函数名，值为函数。要求函数返回值必须为<code>string</code>。<br>例如：<br><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"text/template"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">func</span> myfunc(text <span class="keyword">string</span>) <span class="keyword">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">"The length of '%s' is %d"</span>, text, <span class="built_in">len</span>(text))</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> chkerr(err error) &#123;</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> main()&#123;</span><br><span class="line">    T0 := <span class="string">`&#123;&#123;.var | myfunc&#125;&#125;`</span></span><br><span class="line">    t,err := template.New(<span class="string">"T0"</span>).Funcs(template.FuncMap&#123;<span class="string">"myfunc"</span>:myfunc&#125;).Parse(T0)</span><br><span class="line">    chkerr(err)</span><br><span class="line">    err = t.Execute(os.Stdout, <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">        <span class="string">"var"</span>:<span class="string">"This is a test"</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">    chkerr(err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出</span></span><br><span class="line"><span class="comment">//The length of 'This is a test' is 14</span></span><br></pre></td></tr></table></figure></p>
+<p>原生提供的模板函数有<code>print</code> <code>println</code> <code>printf</code> <code>len</code> <code>index</code>等<br>其中<code>index</code>用于输出<code>a[1][2][3]</code>这样的多维数组或<code>map</code>如<code>{{index .a 1 2 3}}</code></p>
+<h2 id="自定义变量">自定义变量</h2><p>使用<code>{{$var := pipe}}</code>将<code>pipe</code>赋值给<code>$var</code>，其中<code>pipe</code>可为常量、已有变量、函数返回值。如：<br><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"text/template"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">func</span> myfunc(text <span class="keyword">string</span>) <span class="keyword">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">"The length of '%s' is %d"</span>, text, <span class="built_in">len</span>(text))</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> chkerr(err error) &#123;</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> main()&#123;</span><br><span class="line">    T0 := <span class="string">`&#123;&#123;$a := .var | myfunc&#125;&#125;&#123;&#123;$a&#125;&#125;`</span></span><br><span class="line">    t,err := template.New(<span class="string">"T0"</span>).Funcs(template.FuncMap&#123;<span class="string">"myfunc"</span>:myfunc&#125;).Parse(T0)</span><br><span class="line">    chkerr(err)</span><br><span class="line">    err = t.Execute(os.Stdout, <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">        <span class="string">"var"</span>:<span class="string">"This is a test"</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">    chkerr(err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出</span></span><br><span class="line"><span class="comment">//The length of 'This is a test' is 14</span></span><br></pre></td></tr></table></figure></p>
+<p>使用<code>{{with $var}} T1 [{{else}} T0 ] {{end}}</code>结构可定义临时变量，如：<br><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"text/template"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">func</span> myfunc(text <span class="keyword">string</span>) <span class="keyword">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">"The length of '%s' is %d"</span>, text, <span class="built_in">len</span>(text))</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> chkerr(err error) &#123;</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> main()&#123;</span><br><span class="line">    T0 := <span class="string">`&#123;&#123;with .var | myfunc&#125;&#125;&#123;&#123;.&#125;&#125;&#123;&#123;end&#125;&#125;</span><br><span class="line">    &#123;&#123;with $a := "This is var a" | myfunc&#125;&#125;&#123;&#123;$a&#125;&#125;&#123;&#123;end&#125;&#125;`</span></span><br><span class="line">    t,err := template.New(<span class="string">"T0"</span>).Funcs(template.FuncMap&#123;<span class="string">"myfunc"</span>:myfunc&#125;).Parse(T0)</span><br><span class="line">    chkerr(err)</span><br><span class="line">    err = t.Execute(os.Stdout, <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">        <span class="string">"var"</span>:<span class="string">"This is a test"</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">    chkerr(err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*输出</span><br><span class="line">The length of 'This is a test' is 14</span><br><span class="line">    The length of 'This is var a' is 13</span><br><span class="line">*/</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="控制结构">控制结构</h2><p>典型控制结构有<code>{{if pipeline}} T1 [{{else [if pipeline]}} T0] {{end}}</code>、<code>{{range pipeline}} T1 [{{else}} T0] {{end}}</code>、<code>{{with pipeline}} T1 [{{else}} T0 ] {{end}}</code>三种。<br>其中：</p>
+<ul>
+<li><code>{{if pipeline}} T1 [{{else [if pipeline]}} T0] {{end}}</code>用于条件输出，判断标准为<code>pipeline</code>是否为空。不影响结构内<code>{{.}}</code>的值</li>
+<li><code>{{with pipeline}} T1 [{{else}} T0 ] {{end}}</code>可定义临时变量进行条件输出，判断标准为<code>pipeline</code>是否为空。结构内<code>{{.}}</code>的值会变为<code>pipeline</code></li>
+<li><code>{{range pipeline}} T1 [{{else}} T0] {{end}}</code>用于循环输出，判断标准为当前输出键-值对的值是否为空。结构内<code>{{.}}</code>的值会变为当前输出键-值对的值。可以使用<code>{{range $key,$value := pipeline}}</code>定义临时变量输出键-值对。</li>
+</ul>
+<h2 id="模板复用">模板复用</h2><p>模板复用需要使用以下结构：</p>
+<ul>
+<li><code>{{define "name"}} T {{end}}</code> 定义一个模板。同名模板后定义的会覆盖之前的，此处仅为定义，不会渲染。</li>
+<li><code>{{template "name" pipeline}}</code> 使用已定义的模板，模板<code>name</code>中的<code>{{.}}</code>会被替换为<code>pipeline</code></li>
+<li><code>{{block "name" pipeline}} T {{end}}</code> 定义并使用一个<code>block</code>，其中的<code>{{.}}</code>被替换为<code>pipeline</code>，<code>block</code>可被之后的<code>{{define "name"}} T {{end}}</code>重载。</li>
+</ul>
+<p>例(官方Example)：<br><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    master  = <span class="string">`Names:&#123;&#123;block "list" .&#125;&#125;&#123;&#123;"\n"&#125;&#125;&#123;&#123;range .&#125;&#125;&#123;&#123;println "-" .&#125;&#125;&#123;&#123;end&#125;&#125;&#123;&#123;end&#125;&#125;`</span></span><br><span class="line">    overlay = <span class="string">`&#123;&#123;define "list"&#125;&#125; &#123;&#123;join . ", "&#125;&#125;&#123;&#123;end&#125;&#125; `</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    funcs     = template.FuncMap&#123;<span class="string">"join"</span>: strings.Join&#125;</span><br><span class="line">    guardians = []<span class="keyword">string</span>&#123;<span class="string">"Gamora"</span>, <span class="string">"Groot"</span>, <span class="string">"Nebula"</span>, <span class="string">"Rocket"</span>, <span class="string">"Star-Lord"</span>&#125;</span><br><span class="line">)</span><br><span class="line">masterTmpl, err := template.New(<span class="string">"master"</span>).Funcs(funcs).Parse(master)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line">overlayTmpl, err := template.Must(masterTmpl.Clone()).Parse(overlay)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> err := masterTmpl.Execute(os.Stdout, guardians); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> err := overlayTmpl.Execute(os.Stdout, guardians); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*输出</span><br><span class="line">Names:</span><br><span class="line">- Gamora</span><br><span class="line">- Groot</span><br><span class="line">- Nebula</span><br><span class="line">- Rocket</span><br><span class="line">- Star-Lord</span><br><span class="line">Names: Gamora, Groot, Nebula, Rocket, Star-Lord</span><br><span class="line">*/</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="结语">结语</h1><p>此文章仅仅介绍了基本使用方法，某些高级使用方法还是需要大家好好理解才能掌握。如果有什么好的建议，大家可以给我<a href="mailto:sailor0young@gmail.com" title="sailor0young@gmail.com" target="_blank" rel="external">发邮件</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go/" rel="tag">#Go</a>
+          
+            <a href="/tags/Golang/" rel="tag">#Golang</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/10/如何在python中调用C的类库/" rel="next" title="在python中调用C的类库">
+                <i class="fa fa-chevron-left"></i> 在python中调用C的类库
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/04/23/Golang-template使用/"
+     data-title="Golang template使用"
+     data-content=""
+     data-url="http://xbbsky.coding.io/2016/04/23/Golang-template使用/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/23/Golang-template使用/"
+           data-title="Golang template使用" data-url="http://xbbsky.coding.io/2016/04/23/Golang-template使用/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/7664299?v=3&s=460" alt="xbbsky" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">xbbsky</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#template_库介绍"><span class="nav-number">1.</span> <span class="nav-text">template 库介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模板使用简介"><span class="nav-number">2.</span> <span class="nav-text">模板使用简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模板语法"><span class="nav-number">3.</span> <span class="nav-text">模板语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#直接输出"><span class="nav-number">3.1.</span> <span class="nav-text">直接输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用函数"><span class="nav-number">3.2.</span> <span class="nav-text">调用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义变量"><span class="nav-number">3.3.</span> <span class="nav-text">自定义变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制结构"><span class="nav-number">3.4.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板复用"><span class="nav-number">3.5.</span> <span class="nav-text">模板复用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xbbsky</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xbbsky"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>
